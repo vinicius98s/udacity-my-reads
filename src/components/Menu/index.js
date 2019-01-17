@@ -9,7 +9,7 @@ const StyledMenu = styled.nav`
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 -3px 25px rgba(0,0,0, 0.15);
+    box-shadow: 0 5px 30px rgba(0,0,0, 0.15);
     
     ul {
         list-style: none;
@@ -23,9 +23,17 @@ const StyledMenu = styled.nav`
         position: relative;
     }
     
-    li::after {
+
+
+    li:hover::after {
+        opacity: 1;
+    }
+`
+
+const StyledLi = styled.li`
+    ::after {
         content: '';
-        opacity: 0;
+        ${props => props.currentShelf === props.shelf ? 'opacity: 1;' : 'opacity: 0;'}
         width: 100%;
         height: 7px;
         background: white;
@@ -33,30 +41,42 @@ const StyledMenu = styled.nav`
         margin-top: 20px;
         transition: .3s;
     }
-
-    li:hover::after {
-        opacity: 1;
-    }
 `
 
-const Menu = () => {
+const Menu = (props) => {
+    const { currentShelf } = props;
+
     return(
         <StyledMenu className='menu'>
             <ul>
-                <Link to='/want-to-read'>
-                    <li>
+                <Link 
+                    to={{
+                        pathname: '/want-to-read'
+                    }}
+                    onClick={() => props.handleShelfState('wantToRead')}>
+
+                    <StyledLi shelf='wantToRead' currentShelf={ currentShelf }>
                         <p>Want to read</p>
-                    </li>
+                    </StyledLi>
                 </Link>
-                <Link to='/currently-reading'>
-                    <li>
+                <Link 
+                    to={{
+                        pathname: '/currently-reading'
+                    }}
+                    onClick={() => props.handleShelfState('currentlyReading')}>
+
+                    <StyledLi shelf='currentlyReading' currentShelf={ currentShelf }>
                         <p>Currently reading</p>
-                    </li>
+                    </StyledLi>
                 </Link>
-                <Link to='/read'>
-                    <li>
+                <Link 
+                    to={{
+                        pathname: '/read'
+                    }}
+                    onClick={() => props.handleShelfState('read')}>
+                    <StyledLi shelf='read' currentShelf={ currentShelf }>
                         <p>Read</p>
-                    </li>
+                    </StyledLi>
                 </Link>
             </ul>
         </StyledMenu>
