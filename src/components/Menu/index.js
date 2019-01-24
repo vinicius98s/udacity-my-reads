@@ -23,8 +23,6 @@ const StyledMenu = styled.nav`
         position: relative;
     }
     
-
-
     li:hover::after {
         opacity: 1;
     }
@@ -44,8 +42,6 @@ const StyledLi = styled.li`
 `
 
 const Menu = (props) => {
-    const { currentShelf } = props;
-
     return(
         <StyledMenu className='menu'>
             <ul>
@@ -55,7 +51,7 @@ const Menu = (props) => {
                     }}
                     onClick={() => props.handleShelfState('wantToRead')}>
 
-                    <StyledLi shelf='wantToRead' currentShelf={ currentShelf }>
+                    <StyledLi shelf='wantToRead' currentShelf={ props.currentShelf }>
                         <p>Want to read</p>
                     </StyledLi>
                 </Link>
@@ -65,7 +61,7 @@ const Menu = (props) => {
                     }}
                     onClick={() => props.handleShelfState('currentlyReading')}>
 
-                    <StyledLi shelf='currentlyReading' currentShelf={ currentShelf }>
+                    <StyledLi shelf='currentlyReading' currentShelf={ props.currentShelf }>
                         <p>Currently reading</p>
                     </StyledLi>
                 </Link>
@@ -74,7 +70,7 @@ const Menu = (props) => {
                         pathname: '/read'
                     }}
                     onClick={() => props.handleShelfState('read')}>
-                    <StyledLi shelf='read' currentShelf={ currentShelf }>
+                    <StyledLi shelf='read' currentShelf={ props.currentShelf }>
                         <p>Read</p>
                     </StyledLi>
                 </Link>

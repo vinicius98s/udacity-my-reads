@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 
-const FormWrapper = styled.div`
+export const FormWrapper = styled.div`
     width: 100vw;
     height: 100vh;
     position: absolute;
     top: -80px;
     left: 0;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -36,7 +37,7 @@ const FormWrapper = styled.div`
     }
 `
 
-const StyledInput = styled.input`
+export const StyledInput = styled.input`
     width: 100%;
     height: 100px;
     border: none;
@@ -55,7 +56,9 @@ const StyledInput = styled.input`
     }
 `
 
-export {
-    FormWrapper,
-    StyledInput
-}
+export const LoadingWrapper = styled.div`
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    position: absolute;
+`
