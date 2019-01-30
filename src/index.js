@@ -9,14 +9,15 @@ import Menu from './components/Menu';
 import Shelf from './components/Shelf';
 import AddButton from './components/AddButton';
 import AddBook from './components/AddBook';
+import Loading from "./components/Loading";
 
 import { getAll } from './BooksAPI';
 
 class App extends React.Component {
     state = {
         shelfs: ['wantToRead', 'currentlyReading', 'read'],
-        currentShelf: 'currentlyReading',
-        books: {}
+        currentShelf: '',
+        allBooks: false
     }
 
     handleShelfState = (shelf) => {
@@ -29,38 +30,64 @@ class App extends React.Component {
         getAll()
             .then((data) => {
                 this.setState(() => ({
-                    books: data.filter(book => book.shelf === this.state.currentShelf)
+                    allBooks: data
                 }))
             })
-        console.log(this.state.books)
     }
 
     componentDidMount() {
         this.getBooks();
     }
-
-    componentDidUpdate() {
-        this.getBooks();
-    }
     
     render() {
-        const { currentShelf } = this.state;
+        const { currentShelf, allBooks } = this.state;
+
+        if(!allBooks) {
+            return (
+                <Loading />
+            )
+        }
 
         return (
             <Router>
                 <div className='container'>
-                    <Menu currentShelf={currentShelf} handleShelfState={this.handleShelfState} />
+                    <Menu 
+                        currentShelf={currentShelf} 
+                        handleShelfState={this.handleShelfState} 
+                    />
+
                     <div className="wrapper">
                         <Switch>
-                            <Route exact path="/"><Redirect to="/currently-reading" /></Route>
-                            <Route exact path="/currently-reading" render={(props) => <Shelf {...props} currentShelf={this.state.currentShelf} handleShelfState={this.handleShelfState} />} />
-                            <Route exact path="/want-to-read" render={(props) => <Shelf {...props} currentShelf={this.state.currentShelf} handleShelfState={this.handleShelfState} />} />
-                            <Route exact path="/read" render={(props) => <Shelf {...props} currentShelf={this.state.currentShelf} handleShelfState={this.handleShelfState} />} />
+                            <Route exact path="/">
+                                <Redirect to="/currently-reading" />
+                            </Route>
+                            
                             <Route 
+                                exact
                                 path="/add"
-                                component={AddBook}
+                                render={ (props) => 
+                                    <AddBook {...props} 
+                                        getBooks={this.getBooks} 
+                                        books={allBooks} 
+                                        handleShelfState={this.handleShelfState} 
+                                        allBooksOnShelf={allBooks} 
+                                    />
+                                }
+                            />
+
+                            <Route 
+                                path="/"
+                                render={ (props) => 
+                                    <Shelf {...props} 
+                                        currentShelf={currentShelf} 
+                                        books={allBooks} 
+                                        handleShelfState={this.handleShelfState} 
+                                        getBooks={this.getBooks} 
+                                    /> 
+                                } 
                             />
                         </Switch>
+
                         <AddButton />
                     </div>
                 </div>

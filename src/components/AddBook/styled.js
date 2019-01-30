@@ -1,20 +1,27 @@
 import styled from 'styled-components';
 
 export const FormWrapper = styled.div`
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     position: absolute;
     top: -80px;
     left: 0;
-    z-index: 2;
     display: flex;
     flex-direction: column;
     justify-content: center;
 
+    h1 {
+        align-self: center;
+        justify-self: center;
+        margin-top: 40px;
+    }
+
     .search-form {
         position: fixed;
         top: 0;
+        z-index: 2;
         width: 100%;
+        box-shadow: 0 5px 30px rgba(0,0,0, 0.15);
     }
 
     h1 {
@@ -41,7 +48,6 @@ export const StyledInput = styled.input`
     width: 100%;
     height: 100px;
     border: none;
-    border-bottom: 1px solid #C1C1C1;
     font-size: 20px;
     padding: 30px 60px;
     position: relative;
@@ -54,11 +60,4 @@ export const StyledInput = styled.input`
     :focus {
         outline: none;
     }
-`
-
-export const LoadingWrapper = styled.div`
-    width: 100%;
-    height: 100%;
-    background: #ffffff;
-    position: absolute;
 `

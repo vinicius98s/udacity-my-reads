@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
-const StyledButton = styled.div`
+const StyledButton = styled.button`
     width: 55px;
     height: 55px;
-    background: var(--primaryColor);
+    background: ${props => !props.disabled ? 'var(--primaryColor);' : 'var(--lightGrey);'}
     border-radius: 50%;
     cursor: pointer;
     position: fixed;
@@ -15,6 +15,8 @@ const StyledButton = styled.div`
     align-items: center;
     justify-content: center;
     transition: .5s ease;
+    border: none;
+    outline: none;
 
     ::after {
         content: '+';
@@ -23,16 +25,25 @@ const StyledButton = styled.div`
     }
 
     :hover {
-        transform: scale(1.05);
+        transform: ${props => !props.disabled ? 'scale(1.05);' : 'scale(1);'}
     }
 `
+const AddButton = (props) => {
+    if(props.location.pathname === '/add') {
+        return(
+            <Link to={'/add'}>
+                <StyledButton disabled={true} />
+            </Link>
+        )
+    }
 
-const AddButton = () => {
     return(
         <Link to={'/add'}>
             <StyledButton />
         </Link>
     )
-}
+};
 
-export default AddButton;
+const Button = withRouter(props => <AddButton {...props}/>);
+
+export default Button;

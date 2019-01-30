@@ -1,27 +1,31 @@
 import React from 'react';
 
+import Book from '../Book';
+
 const Read = (props) => {
-    const cRCheckState = props.currentShelf === 'currentlyReading' && props.location.pathname === '/currently-reading' ? true : false;
-    const wRCheckState = props.currentShelf === 'wantToRead' && props.location.pathname === '/want-to-read' ? true : false;
-    const rCheckState = props.currentShelf === 'read' && props.location.pathname === '/read' ? true : false;
+    if(!props.currentShelf) {
+        if(props.location.pathname === '/currently-reading') {
+            props.handleShelfState('currentlyReading');
+        }
 
-    if(cRCheckState || wRCheckState || rCheckState) {
-        return (
-            <h1>Current shelf: {props.currentShelf}</h1>
-        )
+        if(props.location.pathname === '/want-to-read') {
+            props.handleShelfState('wantToRead');
+        }
+
+        if(props.location.pathname === '/read') {
+            props.handleShelfState('read');
+        }
     }
 
-    if(!cRCheckState) {
-        props.handleShelfState('currentlyReading');
-    }
+    const filteredBooks = props.books.filter(book => book.shelf === props.currentShelf);
 
-    if(!wRCheckState) {
-        props.handleShelfState('wantToRead');
-    }
-
-    if(!rCheckState) {
-        props.handleShelfState('read');
-    }
-}
+    return (
+        <Book
+            books={filteredBooks}
+            getBooks={props.getBooks}
+            handleShelfState={props.handleShelfState}
+        />
+    )
+};
 
 export default Read;

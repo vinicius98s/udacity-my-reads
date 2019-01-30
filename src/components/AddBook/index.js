@@ -1,15 +1,16 @@
 import React from 'react';
 import { Spring } from 'react-spring';
-import { FormWrapper, StyledInput, LoadingWrapper } from './styled'
+
+import { FormWrapper, StyledInput } from './styled';
 
 import { search } from '../../BooksAPI';
 
 import Loading from "../Loading";
-
+import Book from '../Book';
 
 class AddBook extends React.Component {
     state = {
-        query: {},
+        query: false,
         animationClosing: false,
         loadingQuery: false,
         requestError: false
@@ -19,18 +20,23 @@ class AddBook extends React.Component {
         e.preventDefault();
         const query = e.target.query.value;
 
+        if(!query) {
+            this.setState(() => ({
+                query: false
+            }))
+
+            return;
+        }
+
         this.setState(state => ({
             loadingQuery: !state.loadingQuery
         }), () => {
             search(query)
                 .then(response => {
-                    this.setState(() => ({
-                        query: response
-                    }), () => {
-                        this.setState(state => ({
-                            loadingQuery: !state.loadingQuery
-                        }))
-                    })
+                    this.setState((state) => ({
+                        query: response,
+                        loadingQuery: !state.loadingQuery
+                    }))
                     // Uncomment bellow to simulate bad requests
                     // throw new Error('Bad request simulated')
                 })
@@ -56,42 +62,58 @@ class AddBook extends React.Component {
         this.setState(state => ({
             animationClosing: !state.animationClosing
         }), () => {
-            this.backHomePage()
+            this.backHomePage();
         })
     }
-    
+
     render() {
+        const  { query, loadingQuery, requestError, animationClosing } = this.state;
+
         return(
-            <Spring
-                from={!this.state.animationClosing ? {transform: 'translateY(-100px)'} : {transform: 'translateY(0)'}}
-                to={!this.state.animationClosing ? {transform: 'translateY(0px)'} : {transform: 'translateY(-100px)'}}>
-                {transform => (
-                    <FormWrapper>
-                        <div className='search-form' style={transform}>
-                            <span className='arrow-right' onClick={this.closingAnimation}>🡠</span>
-                            <form onSubmit={(e) => {this.handleAddBook(e)}}>
-                                <StyledInput type='text' name='query' placeholder='TELL ME ANY TYPE OF BOOK' />
-                            </form>
-                        </div>
-                        
-                        {this.state.loadingQuery && (
-                            <LoadingWrapper>
+            <div>
+                <Spring
+                    from={!animationClosing ? {transform: 'translateY(-100px)'} : {transform: 'translateY(0)'}}
+                    to={!animationClosing ? {transform: 'translateY(0px)'} : {transform: 'translateY(-100px)'}}>
+                    {transform => (
+                        <FormWrapper>
+                            <div className='search-form' style={transform}>
+                                <span className='arrow-right' onClick={this.closingAnimation}>🡠</span>
+                                <form onSubmit={(e) => {this.handleAddBook(e)}}>
+                                    <StyledInput type='text' name='query' placeholder='TELL ME ANY TYPE OF BOOK' />
+                                </form>
+                            </div>
+
+                            {loadingQuery && (
                                 <Loading />
-                            </ LoadingWrapper>
-                        )}
+                            )}
 
-                        {this.state.requestError && (
-                            <h1>Sorry, something went wrong <span role='img' aria-label='Sad face'>😞</span></h1>
-                        )}
+                            {!query && (
+                                <h1>What're you looking for? <span role='img' aria-label='Thinking face'>🤔</span></h1>
+                            )}
 
-                        {this.state.query.error && (
-                            <h1>Sorry, couldn't find your book <span role='img' aria-label='Sad face'>😞</span></h1>
-                        )}
-                    </FormWrapper>
+                            {requestError && (
+                                <h1>Sorry, something went wrong <span role='img' aria-label='Sad face'>😞</span></h1>
+                            )}
+
+                            {query.error && (
+                                <h1>Sorry, couldn't find your book <span role='img' aria-label='Sad face'>😞</span></h1>
+                            )}
+                        </FormWrapper>
+                    )}
+                </Spring>
+
+                {query && query !== {} && !query.error && (
+                    <Book
+                        books={query}
+                        getBooks={this.props.getBooks}
+                        handleShelfState={this.props.handleShelfState}
+                        allBooks={this.props.books}
+                        addBook={true}
+                    />
                 )}
-            </Spring>
+            </div>
         )
     }
-}
+};
 
 export default AddBook;

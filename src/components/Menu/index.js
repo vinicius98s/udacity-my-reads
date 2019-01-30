@@ -10,7 +10,7 @@ const StyledMenu = styled.nav`
     align-items: center;
     justify-content: center;
     box-shadow: 0 5px 30px rgba(0,0,0, 0.15);
-    
+
     ul {
         list-style: none;
     }
@@ -22,7 +22,7 @@ const StyledMenu = styled.nav`
         cursor: pointer;
         position: relative;
     }
-    
+
     li:hover::after {
         opacity: 1;
     }
@@ -45,7 +45,7 @@ const Menu = (props) => {
     return(
         <StyledMenu className='menu'>
             <ul>
-                <Link 
+                <Link
                     to={{
                         pathname: '/want-to-read'
                     }}
@@ -55,7 +55,7 @@ const Menu = (props) => {
                         <p>Want to read</p>
                     </StyledLi>
                 </Link>
-                <Link 
+                <Link
                     to={{
                         pathname: '/currently-reading'
                     }}
@@ -65,7 +65,7 @@ const Menu = (props) => {
                         <p>Currently reading</p>
                     </StyledLi>
                 </Link>
-                <Link 
+                <Link
                     to={{
                         pathname: '/read'
                     }}
@@ -77,6 +77,6 @@ const Menu = (props) => {
             </ul>
         </StyledMenu>
     )
-}
+};
 
 export default Menu;
