@@ -5,7 +5,6 @@ import { FormWrapper, StyledInput } from './styled';
 
 import { search } from '../../BooksAPI';
 
-import Loading from "../Loading";
 import Book from '../Book';
 
 class AddBook extends React.Component {
@@ -17,8 +16,7 @@ class AddBook extends React.Component {
     }
 
     handleAddBook = (e) => {
-        e.preventDefault();
-        const query = e.target.query.value;
+        const query = e.target.value;
 
         if(!query) {
             this.setState(() => ({
@@ -28,28 +26,24 @@ class AddBook extends React.Component {
             return;
         }
 
-        this.setState(state => ({
-            loadingQuery: !state.loadingQuery
-        }), () => {
-            search(query)
-                .then(response => {
-                    this.setState((state) => ({
-                        query: response,
-                        loadingQuery: !state.loadingQuery
-                    }))
-                    // Uncomment bellow to simulate bad requests
-                    // throw new Error('Bad request simulated')
-                })
-                .catch(err => {
-                    console.error(err);
+        search(query)
+            .then(response => {
+                this.setState((state) => ({
+                    query: response,
+                    loadingQuery: !state.loadingQuery
+                }))
+                // Uncomment bellow to simulate bad requests
+                // throw new Error('Bad request simulated')
+            })
+            .catch(err => {
+                console.error(err);
 
-                    this.setState(() => ({
-                        requestError: true,
-                        loading: false,
-                        query: {}
-                    }))
-                })
-        })
+                this.setState(() => ({
+                    requestError: true,
+                    loading: false,
+                    query: {}
+                }))
+            })
     }
 
     backHomePage = () => {
@@ -67,7 +61,7 @@ class AddBook extends React.Component {
     }
 
     render() {
-        const  { query, loadingQuery, requestError, animationClosing } = this.state;
+        const  { query, requestError, animationClosing } = this.state;
 
         return(
             <div>
@@ -78,14 +72,10 @@ class AddBook extends React.Component {
                         <FormWrapper>
                             <div className='search-form' style={transform}>
                                 <span className='arrow-right' onClick={this.closingAnimation}>🡠</span>
-                                <form onSubmit={(e) => {this.handleAddBook(e)}}>
+                                <form onChange={(e) => {this.handleAddBook(e)}} onSubmit={(e) => e.preventDefault()}>
                                     <StyledInput type='text' name='query' placeholder='TELL ME ANY TYPE OF BOOK' />
                                 </form>
                             </div>
-
-                            {loadingQuery && (
-                                <Loading />
-                            )}
 
                             {!query && (
                                 <h1>What're you looking for? <span role='img' aria-label='Thinking face'>🤔</span></h1>
@@ -112,8 +102,8 @@ class AddBook extends React.Component {
                     />
                 )}
             </div>
-        )
+        );
     }
-};
+}
 
 export default AddBook;

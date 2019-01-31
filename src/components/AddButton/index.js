@@ -29,20 +29,20 @@ const StyledButton = styled.button`
     }
 `
 const AddButton = (props) => {
-    if(props.location.pathname === '/add') {
+    if(props.location.pathname === '/search') {
         return(
-            <Link to={'/add'}>
+            <Link to={'/search'}>
                 <StyledButton disabled={true} />
             </Link>
         )
     }
 
     return(
-        <Link to={'/add'}>
+        <Link to={'/search'}>
             <StyledButton />
         </Link>
     )
-};
+}
 
 const Button = withRouter(props => <AddButton {...props}/>);
 

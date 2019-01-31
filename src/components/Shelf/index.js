@@ -26,6 +26,6 @@ const Read = (props) => {
             handleShelfState={props.handleShelfState}
         />
     )
-};
+}
 
 export default Read;

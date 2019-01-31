@@ -33,6 +33,6 @@ const Loading = () => {
             <StyledLoading />
         </LoadingWrapper>
     )
-};
+}
 
 export default Loading;

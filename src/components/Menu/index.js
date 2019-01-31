@@ -77,6 +77,6 @@ const Menu = (props) => {
             </ul>
         </StyledMenu>
     )
-};
+}
 
 export default Menu;
