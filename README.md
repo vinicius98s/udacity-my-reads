@@ -1,6 +1,6 @@
 This project was made to [React Nanodegree](https://www.udacity.com/course/react-nanodegree--nd019).
 
-Basically, this project has 3 shelves (currently reading, want to read and read) that holds some books and you may change them from shelf to shelf. You'll also find a path called /`search` to add more books to your shelves.
+Basically, this app has 3 shelves (currently reading, want to read and read) that holds some books and you may change them from shelf to shelf. You'll also find a path called /`search` to add more books to your shelves.
 
 ## Cloning the repository
 On terminal, go to the desired folder to clone this repository.
@@ -18,7 +18,7 @@ As soon as you type:
 Your browser will open with the following url: http://localhost:3000
 
 ## Routes
-Our app counts with one route for each shelf and one for adding books: <br>
+Our app counts with a route for each shelf and one for adding books: <br>
 http://localhost:3000/search<br>
 http://localhost:3000/want-to-read<br>
 http://localhost:3000/currently-reading<br>
